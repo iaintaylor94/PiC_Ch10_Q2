@@ -7,6 +7,9 @@
 bool alphabetic (const char);
 void readLine (char[]);
 int countWords (const char []);
+bool numeric (const char);
+int countNumbers (const char []);
+int countWordsAndNumbers (const char[]);
 
 int main(void) {
 
@@ -26,7 +29,7 @@ int main(void) {
     if (text[0] == '\0')
       endOfText = true;
     else
-      totalWords += countWords (text);
+      totalWords += countWordsAndNumbers (text);
   }
 
   // Print output
@@ -73,4 +76,38 @@ int countWords (const char string[]) {
     }
   }
   return wordCount;
+}
+
+bool numeric (const char c) {
+  if (0 <= c && c >= 9) 
+    return true;
+  else
+    return false;
+}
+
+int countNumbers (const char string[]) {
+  int i, numberCount = 0;
+  bool lookingForNumber = true;
+
+  for (i = 0; string[i] != '\0'; i++) {
+    if (numeric(string[i]) || string[i] == ',' || string[i] == '.') {
+      if (lookingForNumber) {
+        numberCount++;
+        lookingForNumber = false;
+      }
+    }
+    else {
+      lookingForNumber = true;
+    }
+  }
+  return numberCount;
+}
+
+int countWordsAndNumbers (const char string[]) {
+  int numWordsAndNumbers = 0;
+  
+  numWordsAndNumbers += countWords (string);
+  numWordsAndNumbers += countNumbers (string);
+
+  return numWordsAndNumbers;
 }
